@@ -1,0 +1,89 @@
+<header class="panel-head">
+  <div>
+    <p class="eyebrow">// alta</p>
+    <h2>Agregar pista</h2>
+  </div>
+</header>
+
+<form class="panel-body stack" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+  <div class="field">
+    <label class="field-label" for="campo-catalogo">Catálogo local</label>
+    <select id="campo-catalogo" class="form-select" formControlName="catalogo">
+      <option value="">
+        @if (store.catalogoEstado() === 'cargando') {
+          Leyendo manifiesto…
+        } @else if (store.catalogo().length === 0) {
+          Catálogo no disponible
+        } @else {
+          Elegí un archivo de public/audio
+        }
+      </option>
+      @for (archivo of store.catalogo(); track archivo.path) {
+        <option [value]="archivo.path">{{ archivo.name }}</option>
+      }
+    </select>
+
+    @if (store.catalogoEstado() === 'error') {
+      <p class="hint is-error">{{ store.catalogoError() }}</p>
+      <button type="button" class="btn btn-quiet btn-sm field__retry" (click)="store.cargarCatalogo()">
+        Reintentar lectura
+      </button>
+    } @else {
+      <p class="hint">
+        Autocompleta la ruta. El servidor guarda el nombre exacto, con <code>%20</code> literal incluido.
+      </p>
+    }
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="campo-titulo">Título</label>
+    <input
+      id="campo-titulo"
+      type="text"
+      class="form-control"
+      formControlName="titulo"
+      maxlength="120"
+      placeholder="Ej. Por tu amor"
+      autocomplete="off"
+      [class.is-invalid]="errorTitulo() !== null"
+    />
+    @if (errorTitulo(); as error) {
+      <p class="hint is-error">{{ error }}</p>
+    }
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="campo-url">Ruta o URL</label>
+    <input
+      id="campo-url"
+      type="text"
+      class="form-control"
+      formControlName="url"
+      placeholder="/audio/J20-20AM.flac"
+      autocomplete="off"
+      spellcheck="false"
+      [class.is-invalid]="errorUrl() !== null"
+    />
+    @if (errorUrl(); as error) {
+      <p class="hint is-error">{{ error }}</p>
+    } @else {
+      <p class="hint">Acepta rutas lógicas (<code>/audio/…</code>) o URLs externas <code>http(s)://</code>.</p>
+    }
+  </div>
+
+  <div class="add-actions">
+    <button type="submit" class="btn btn-neon" [disabled]="store.enviando()">
+      @if (store.enviando()) {
+        <span class="spinner-border" aria-hidden="true"></span>
+        Guardando…
+      } @else {
+        Agregar
+      }
+    </button>
+    <button type="button" class="btn btn-quiet" (click)="limpiar()">Limpiar</button>
+  </div>
+
+  <p class="note">
+    Los títulos no son únicos: dos pistas con el mismo nombre conviven, y eliminar una se lleva todas las copias.
+  </p>
+</form>

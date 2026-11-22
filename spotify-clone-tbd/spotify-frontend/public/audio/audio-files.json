@@ -1,0 +1,34 @@
+{
+  "source": "resources",
+  "count": 7,
+  "files": [
+    {
+      "name": "Alacranes20-20Tu20(Duranguense).flac",
+      "path": "/audio/Alacranes20-20Tu20(Duranguense).flac"
+    },
+    {
+      "name": "AlejandraC320-20Por%20Favor.flac",
+      "path": "/audio/AlejandraC320-20Por%20Favor.flac"
+    },
+    {
+      "name": "Enjambre20Visita.flac",
+      "path": "/audio/Enjambre20Visita.flac"
+    },
+    {
+      "name": "Gorillaz2620La20-20Good%20Inc.flac",
+      "path": "/audio/Gorillaz2620La20-20Good%20Inc.flac"
+    },
+    {
+      "name": "J20-20AM.flac",
+      "path": "/audio/J20-20AM.flac"
+    },
+    {
+      "name": "Michael20-20Jean.flac",
+      "path": "/audio/Michael20-20Jean.flac"
+    },
+    {
+      "name": "Sir20-20Close.flac",
+      "path": "/audio/Sir20-20Close.flac"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field__retry {
+  align-self: flex-start;
+  margin-top: 0.45rem;
+  --bs-btn-padding-x: 0.65rem;
+}
+
+.add-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}
+
+.add-actions .btn-neon {
+  flex: 1 1 9rem;
+}
+
+.add-actions .btn-quiet {
+  flex: 0 0 auto;
+}

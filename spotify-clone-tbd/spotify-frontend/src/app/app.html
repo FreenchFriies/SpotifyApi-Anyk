@@ -1,0 +1,106 @@
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <span class="eq" [class.eq--paused]="!store.reproduciendo()">
+          <span></span><span></span><span></span><span></span>
+        </span>
+      </span>
+      <span class="brand__text">
+        <span class="brand__name">NEON<span class="brand__name-alt">WAVE</span></span>
+        <span class="brand__sub mono">cyber audio deck</span>
+      </span>
+    </div>
+
+    <div class="topbar__meta">
+      <span
+        class="chip"
+        [class.chip--ok]="store.apiViva()"
+        [class.chip--off]="store.estado() === 'error'"
+        role="status"
+      >
+        <span class="chip__dot" aria-hidden="true"></span>
+        @if (store.apiViva()) {
+          API en línea
+        } @else if (store.cargando()) {
+          Conectando
+        } @else {
+          API sin conexión
+        }
+      </span>
+
+      <button
+        type="button"
+        class="btn btn-ghost btn-sm"
+        (click)="store.cargar()"
+        [disabled]="store.cargando() || store.refrescando()"
+      >
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+          <path d="M21 3v6h-6" />
+        </svg>
+        {{ store.refrescando() ? 'Sincronizando' : 'Sincronizar' }}
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel panel--library" aria-labelledby="titulo-biblioteca">
+      <header class="panel-head">
+        <div>
+          <p class="eyebrow">// biblioteca</p>
+          <h1 id="titulo-biblioteca">Pistas guardadas</h1>
+        </div>
+        <p class="counter mono">
+          {{ dosDigitos(store.total()) }} <span class="muted">tracks</span>
+        </p>
+      </header>
+
+      <app-track-list />
+    </section>
+
+    <aside class="side">
+      <section class="panel">
+        <app-add-panel />
+      </section>
+
+      <section class="panel side__system">
+        <div class="panel-body">
+          <p class="eyebrow">// sistema</p>
+          <ul class="facts mono">
+            <li>
+              <span>endpoint</span>
+              <strong>/canciones</strong>
+            </li>
+            <li>
+              <span>puerto</span>
+              <strong>:8080</strong>
+            </li>
+            <li>
+              <span>catálogo</span>
+              <strong>{{ dosDigitos(store.catalogo().length) }} audios</strong>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <app-player-bar />
+
+  @if (store.aviso(); as aviso) {
+    <div class="toast-stack" aria-live="polite" aria-atomic="true">
+      <div
+        class="toast-note"
+        [class.toast-note--ok]="aviso.tipo === 'ok'"
+        [class.toast-note--error]="aviso.tipo === 'error'"
+        role="status"
+      >
+        <span class="toast-note__dot" aria-hidden="true"></span>
+        <p>{{ aviso.texto }}</p>
+        <button type="button" (click)="store.limpiarAviso()" aria-label="Cerrar aviso">×</button>
+      </div>
+    </div>
+  }
+</div>
